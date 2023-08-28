@@ -17,10 +17,10 @@ class SubTaskLabelisator:
 
         self.sample_train = self.get_sample(sample_size, seed)
 
-    def get_sample(sample_size, seed):
+    def get_sample(self, sample_size, seed):
         return self.data_train.sample(sample_size, random_state=seed)
 
-    def chatgpt(text, temp, max_t):
+    def chatgpt(self, text, temp, max_t):
         try: 
             output = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
@@ -39,7 +39,7 @@ class SubTaskLabelisator:
     
         return output["choices"][0]["message"]["content"]
 
-    def run_labeling(root_labels, temp=0, max_t=10):
+    def run_labeling(self, root_labels, temp=0, max_t=10):
         for key, b in list(self.dict_bsqs.items()):
             responses = []
             for i, ix in enumerate(self.sample_train.index):

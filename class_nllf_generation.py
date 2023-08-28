@@ -28,7 +28,7 @@ class NLLFGeneratorInAction:
         self.data_test = data_test
 
 
-    def _preproccesing(sen, b):
+    def _preproccesing(self, sen, b):
         sentence1 = str(sen)
         sentence2 = str(b)
             
@@ -52,7 +52,7 @@ class NLLFGeneratorInAction:
 
         return tokens_ids_tensor.cuda(), attn_mask.cuda()
 
-    def decisionClassifier(sen, b):
+    def decisionClassifier(self, sen, b):
         tokens_ids_tensor, attn_mask = self._preproccesing(sen, b)
         cont_reps = self.the_model(tokens_ids_tensor.unsqueeze(0), attention_mask = attn_mask.unsqueeze(0))
         cls_rep = cont_reps.last_hidden_state[:, 0]
@@ -61,7 +61,7 @@ class NLLFGeneratorInAction:
         return probs.detach().cpu().numpy()[0]
 
     
-    def _predict(root_labels, verbose):
+    def _predict(self, root_labels, verbose):
         for i, kb in enumerate(self.new_dict_bsqs.keys()):
 
             bsq = self.new_dict_bsqs[kb]
@@ -86,7 +86,7 @@ class NLLFGeneratorInAction:
 
         pass
 
-    def _ensemble(root_labels):
+    def _ensemble(self, root_labels):
         
         file_names = [] 
         for file_name in os.listdir(f"{root_labels}/"):
@@ -123,7 +123,7 @@ class NLLFGeneratorInAction:
         
         pass
 
-    def apply(root_labels, verbose=False):
+    def apply(self, root_labels, verbose=False):
 
         _predict(root_labels, verbose)
 

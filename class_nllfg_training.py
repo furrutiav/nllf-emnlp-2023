@@ -80,7 +80,7 @@ class NLLGeneratorTraining:
 
         prepare_split()
 
-    def get_dataset(root_labels):
+    def get_dataset(self, root_labels):
         self.label_bsq = "label_bsq"
         self.bsq_col_name = "bsq"
 
@@ -99,7 +99,7 @@ class NLLGeneratorTraining:
         
         return dataset
 
-    def prepare_split(maxlen_s=50, maxlen_bsq=20, batch_size=32, num_workers=2, train_ratio=0.9, seed=2023):
+    def prepare_split(self, maxlen_s=50, maxlen_bsq=20, batch_size=32, num_workers=2, train_ratio=0.9, seed=2023):
 
         df_train = self.dataset.sample(frac=train_ratio, random_state=seed)
         df_val = self.dataset.loc[[ix for ix in self.dataset.index if ix not in df_train.index]]
@@ -128,7 +128,7 @@ class NLLGeneratorTraining:
         
         pass
 
-    def _train(net, criterion, opti, train_loader, val_loader, epochs, verbose=False):
+    def _train(self, net, criterion, opti, train_loader, val_loader, epochs, verbose=False):
         for ep in range(epochs):
             for it, (seq, attn_masks, labels) in enumerate(train_loader):
                 opti.zero_grad()  
@@ -148,7 +148,7 @@ class NLLGeneratorTraining:
                 print(classification_report(tests, preds, digits=4))
                 print("Epoch {} complete! Validation Accuracy : {}, Validation Loss : {}".format(ep+1, val_acc, val_loss))
 
-    def _evaluate_pairs(net, dataloader):
+    def _evaluate_pairs(self, net, dataloader):
         net.eval()
         preds = []
         tests = []
@@ -162,7 +162,7 @@ class NLLGeneratorTraining:
                 tests += labels.tolist()
         return tests, preds
 
-    def _evaluate(net, criterion, dataloader):
+    def _evaluate(self, net, criterion, dataloader):
         net.eval()
         mean_acc, mean_loss = 0, 0
         count = 0
@@ -176,7 +176,7 @@ class NLLGeneratorTraining:
 
         return mean_acc / count, mean_loss / count
 
-    def train(epochs=3, lr=2e-5, verbose=False):
+    def train(self, epochs=3, lr=2e-5, verbose=False):
         
         net = DecisionClassifier(self.model_name)
 
@@ -188,7 +188,7 @@ class NLLGeneratorTraining:
 
         pass
 
-    def save(hf_token, repo_name):
+    def save(self, hf_token, repo_name):
         """
         hf_token: https://huggingface.co/settings/token
         
