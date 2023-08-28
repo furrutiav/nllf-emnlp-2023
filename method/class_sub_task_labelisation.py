@@ -3,11 +3,14 @@ import openai
 import time
 
 class SubTaskLabelisator:
-    def __init__(self, dict_bsqs, data_train, sentence_col_name, sample_size, chatgpt_template, seed=2023):
+    def __init__(self, api_key, dict_bsqs, data_train, sentence_col_name, sample_size, chatgpt_template, seed=2023):
         """
         chatgpt_template = lambda sen, bsq: f"Sentence: {sen}
         Based on the sentence, {bsq} (answer 'Yes' or 'No')"
         """
+        openai.organization = ""
+        openai.api_key = api_key
+
         self.dict_bsqs = dict_bsqs
         self.data_train = data_train
         self.sample_size = sample_size

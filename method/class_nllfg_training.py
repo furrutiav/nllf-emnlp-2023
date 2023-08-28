@@ -194,7 +194,7 @@ class NLLGeneratorTraining:
         
         Finally:
         Save manually "cls_layer.torch" in your HF model folders: 
-        https://huggingface.co/{your_username}/{repo_name}}/upload/main
+        https://huggingface.co/{your_username}/{repo_name}/upload/main
         """
 
         hf_login(hf_token)
