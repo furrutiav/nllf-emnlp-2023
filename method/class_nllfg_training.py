@@ -11,6 +11,7 @@ from torch.utils.data import Dataset
 
 print("torch.cuda.is_available()")
 assert(torch.cuda.is_available() == True)
+print(torch.cuda.is_available())
 
 class DecisionClassifier(nn.Module):
     def __init__(self, model_name):
@@ -76,9 +77,9 @@ class NLLGeneratorTraining:
         self.sentence_col_name = sentence_col_name
         self.model_name = model_name
         
-        self.dataset = get_dataset(root_labels)
+        self.dataset = self.get_dataset(root_labels)
 
-        prepare_split()
+        self.prepare_split()
 
     def get_dataset(self, root_labels):
         self.label_bsq = "label_bsq"
@@ -107,10 +108,10 @@ class NLLGeneratorTraining:
         df_train = df_train.reset_index()
         df_val = df_val.reset_index()
 
-        train_set = DatasetTaskDecision(df = df_train, self.model_name, maxlen_s, maxlen_bsq, 
-                                        self.sentence_col_name, self.bsq_col_name, self.label_col_name)
-        val_set = DatasetTaskDecision(df = df_val, self.model_name, maxlen_s, maxlen_bsq,
-                                        self.sentence_col_name, self.bsq_col_name, self.label_col_name)
+        train_set = DatasetTaskDecision(df_train, self.model_name, maxlen_s, maxlen_bsq, 
+                                        self.sentence_col_name, self.bsq_col_name, self.label_bsq)
+        val_set = DatasetTaskDecision(df_val, self.model_name, maxlen_s, maxlen_bsq,
+                                        self.sentence_col_name, self.bsq_col_name, self.label_bsq)
 
         self.train_loader = DataLoader(
             train_set, 
@@ -162,6 +163,12 @@ class NLLGeneratorTraining:
                 tests += labels.tolist()
         return tests, preds
 
+    def _get_accuracy_from_logits(self, logits, labels):
+        probs = torch.sigmoid(logits)
+        soft_probs = probs.argmax(1)
+        acc = (soft_probs.squeeze() == labels).float().mean()
+        return acc
+    
     def _evaluate(self, net, criterion, dataloader):
         net.eval()
         mean_acc, mean_loss = 0, 0
@@ -171,7 +178,7 @@ class NLLGeneratorTraining:
                 seq, attn_masks, labels = seq.cuda(), attn_masks.cuda(), labels.cuda()
                 logits = net(seq, attn_masks)
                 mean_loss += criterion(logits, labels).item()
-                mean_acc += get_accuracy_from_logits(logits, labels)
+                mean_acc += self._get_accuracy_from_logits(logits, labels)
                 count += 1
 
         return mean_acc / count, mean_loss / count
@@ -186,6 +193,8 @@ class NLLGeneratorTraining:
 
         self._train(net, criterion, opti, self.train_loader, self.val_loader, epochs, verbose)
 
+        self.net = net
+        
         pass
 
     def save(self, hf_token, repo_name):
@@ -201,7 +210,7 @@ class NLLGeneratorTraining:
 
         self.net.bert_layer.push_to_hub(repo_name)
 
-        self.train_set.tokenizer.push_to_hub(repo_name)
+        self.train_loader.dataset.tokenizer.push_to_hub(repo_name)
         
         torch.save(self.net.cls_layer, "cls_layer.torch") 
         
