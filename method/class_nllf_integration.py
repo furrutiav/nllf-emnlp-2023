@@ -1,4 +1,4 @@
-import pandas
+import pandas as pd
 from sklearn.metrics import classification_report
 from sklearn.tree import DecisionTreeClassifier
 
@@ -22,12 +22,12 @@ class NLLFIntergration:
         return df
 
     def prepare_data(self, label_col_name):
-        X_train = df["train"][self.support]
-        X_val = df["val"][self.support]
-        X_test = df["test"][self.support]
+        X_train = self.raw_data["train"][self.support]
+        X_val = self.raw_data["val"][self.support]
+        X_test = self.raw_data["test"][self.support]
 
-        y_train = df["train"][label_col_name].apply(int)
-        y_val = df["val"][label_col_name].apply(int)
+        y_train = self.raw_data["train"][label_col_name].apply(int)
+        y_val = self.raw_data["val"][label_col_name].apply(int)
 
         return {
             "train": (X_train, y_train),

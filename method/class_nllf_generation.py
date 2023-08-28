@@ -7,11 +7,13 @@ import os
 
 print("torch.cuda.is_available()")
 assert(torch.cuda.is_available() == True)
+print(torch.cuda.is_available())
 
 class NLLFGeneratorInAction:
 
-    def __init__(self, new_dict_bsqs, maxlen_s, maxlen_bsq, hf_username, repo_name, data_train, data_val, data_test):
+    def __init__(self, new_dict_bsqs, maxlen_s, maxlen_bsq, hf_username, repo_name, data_train, data_val, data_test, sentence_col_name):
         self.new_dict_bsqs = new_dict_bsqs
+        self.sentence_col_name = sentence_col_name
         
         self.maxlen_s = maxlen_s
         self.maxlen_bsq = maxlen_bsq
@@ -68,19 +70,19 @@ class NLLFGeneratorInAction:
 
             if verbose: print("[train] ChatGPT question:", kb)
             new_train = self.data_train.copy()
-            y_pred = new_train.apply(lambda x: self.decisionClassifier(str(x["sentence"]), bsq), axis=1)
+            y_pred = new_train.apply(lambda x: self.decisionClassifier(str(x[self.sentence_col_name]), bsq), axis=1)
             new_train["juke"] = y_pred
             new_train.to_excel(f"{root_labels}/train_nllf_{kb}.xlsx")
             
             if verbose: print("[test] ChatGPT question:", kb)
             new_test = self.data_test.copy()
-            y_pred = new_test.apply(lambda x: self.decisionClassifier(str(x["sentence"]), bsq), axis=1)
+            y_pred = new_test.apply(lambda x: self.decisionClassifier(str(x[self.sentence_col_name]), bsq), axis=1)
             new_test["juke"] = y_pred
             new_test.to_excel(f"{root_labels}/test_nllf_{kb}.xlsx")
             
             if verbose: print("[dev] ChatGPT question:", kb)
             new_dev = self.data_val.copy()
-            y_pred = new_dev.apply(lambda x: self.decisionClassifier(str(x["sentence"]), bsq), axis=1)
+            y_pred = new_dev.apply(lambda x: self.decisionClassifier(str(x[self.sentence_col_name]), bsq), axis=1)
             new_dev["juke"] = y_pred
             new_dev.to_excel(f"{root_labels}/val_nllf_{kb}.xlsx")
 
@@ -125,8 +127,8 @@ class NLLFGeneratorInAction:
 
     def apply(self, root_labels, verbose=False):
 
-        _predict(root_labels, verbose)
+        self._predict(root_labels, verbose)
 
-        _ensemble(root_labels)
+        self._ensemble(root_labels)
 
         pass

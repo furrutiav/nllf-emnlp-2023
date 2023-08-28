@@ -70,16 +70,16 @@ class DatasetTaskDecision(Dataset):
 
         return tokens_ids_tensor, attn_mask, label
 
-class NLLGeneratorTraining:
+class NLLFGeneratorTraining:
 
-    def __init__(self, dict_bsqs, root_labels, sentence_col_name, model_name):
+    def __init__(self, dict_bsqs, root_labels, sentence_col_name, model_name, maxlen_s, maxlen_bsq):
         self.dict_bsqs = dict_bsqs
         self.sentence_col_name = sentence_col_name
         self.model_name = model_name
         
         self.dataset = self.get_dataset(root_labels)
 
-        self.prepare_split()
+        self.prepare_split(maxlen_s, maxlen_bsq)
 
     def get_dataset(self, root_labels):
         self.label_bsq = "label_bsq"
@@ -183,11 +183,11 @@ class NLLGeneratorTraining:
 
         return mean_acc / count, mean_loss / count
 
-    def train(self, epochs=3, lr=2e-5, verbose=False):
+    def train(self, epochs=3, lr=2e-5, criterion=nn.CrossEntropyLoss(), verbose=False):
         
         net = DecisionClassifier(self.model_name)
 
-        criterion = nn.CrossEntropyLoss().cuda()
+        criterion=criterion.cuda()
 
         opti = optim.Adam(net.parameters(), lr = lr)
 
