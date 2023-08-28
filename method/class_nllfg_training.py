@@ -8,6 +8,7 @@ import torch.optim as optim
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
+from huggingface_hub import HfApi
 
 print("torch.cuda.is_available()")
 assert(torch.cuda.is_available() == True)
@@ -72,14 +73,14 @@ class DatasetTaskDecision(Dataset):
 
 class NLLFGeneratorTraining:
 
-    def __init__(self, dict_bsqs, root_labels, sentence_col_name, model_name, maxlen_s, maxlen_bsq):
+    def __init__(self, dict_bsqs, root_labels, sentence_col_name, model_name, maxlen_s, maxlen_bsq, batch_size=32):
         self.dict_bsqs = dict_bsqs
         self.sentence_col_name = sentence_col_name
         self.model_name = model_name
         
         self.dataset = self.get_dataset(root_labels)
 
-        self.prepare_split(maxlen_s, maxlen_bsq)
+        self.prepare_split(maxlen_s, maxlen_bsq, batch_size=batch_size)
 
     def get_dataset(self, root_labels):
         self.label_bsq = "label_bsq"
@@ -197,7 +198,7 @@ class NLLFGeneratorTraining:
         
         pass
 
-    def save(self, hf_token, repo_name):
+    def save(self, hf_token, repo_name, username):
         """
         hf_token: https://huggingface.co/settings/token
         
@@ -205,7 +206,7 @@ class NLLFGeneratorTraining:
         Save manually "cls_layer.torch" in your HF model folders: 
         https://huggingface.co/{your_username}/{repo_name}/upload/main
         """
-
+        
         hf_login(hf_token)
 
         self.net.bert_layer.push_to_hub(repo_name)
@@ -213,6 +214,18 @@ class NLLFGeneratorTraining:
         self.train_loader.dataset.tokenizer.push_to_hub(repo_name)
         
         torch.save(self.net.cls_layer, "cls_layer.torch") 
+        
+        api = HfApi()
+        
+        api.upload_file(
+
+            path_or_fileobj="cls_layer.torch",
+
+            path_in_repo="cls_layer.torch",
+
+            repo_id=f"{username}/{repo_name}",
+
+        )
         
         pass
 
