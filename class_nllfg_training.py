@@ -71,7 +71,7 @@ class DatasetTaskDecision(Dataset):
 
 class NLLGeneratorTraining:
 
-    def __init__(dict_bsqs, root_labels, sentence_col_name, model_name):
+    def __init__(self, dict_bsqs, root_labels, sentence_col_name, model_name):
         self.dict_bsqs = dict_bsqs
         self.sentence_col_name = sentence_col_name
         self.model_name = model_name
