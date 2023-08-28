@@ -42,14 +42,15 @@ class SubTaskLabelisator:
     
         return output["choices"][0]["message"]["content"]
 
-    def run_labeling(self, root_labels, temp=0, max_t=10):
+    def run_labeling(self, root_labels, temp=0, max_t=10, verbose=False):
         for key, b in list(self.dict_bsqs.items()):
+            if verbose: print(key, "BSQ:", b)
             responses = []
             for i, ix in enumerate(self.sample_train.index):
                 s = self.sample_train.loc[ix][self.sentence_col_name]
                 o = self.chatgpt(self.chatgpt_template(s, b), temp, max_t)
                 responses.append([ix, o])
-
+                if verbose and ((i+1) % 10 == 0): print(f"{i+1}/{self.sample_train.shape[0]}")
             train_bi = self.sample_train.copy()
             train_bi["chatgpt"] = [x[1] for x in responses]
 
