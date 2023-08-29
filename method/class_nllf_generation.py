@@ -4,6 +4,7 @@ from huggingface_hub import hf_hub_url, cached_download
 from transformers import BertTokenizer, BertModel
 import torch
 import os
+import json
 
 print("torch.cuda.is_available()")
 assert(torch.cuda.is_available() == True)
@@ -11,23 +12,26 @@ print(torch.cuda.is_available())
 
 class NLLFGeneratorInAction:
 
-    def __init__(self, new_dict_bsqs, maxlen_s, maxlen_bsq, hf_username, repo_name, data_train, data_val, data_test, sentence_col_name):
-        self.new_dict_bsqs = new_dict_bsqs
+    def __init__(self, file_name_new_dict_bsqs, maxlen_s, maxlen_bsq, username, repo_name, file_name_data_train, file_name_data_val, file_name_data_test, sentence_col_name):
+        self.new_dict_bsqs = {}
+        with open(file_name_new_dict_bsqs, 'r') as f:
+            self.new_dict_bsqs = json.load(f)
+            
         self.sentence_col_name = sentence_col_name
         
         self.maxlen_s = maxlen_s
         self.maxlen_bsq = maxlen_bsq
         
-        config_file_url = hf_hub_url(f"{hf_username}/{repo_name}", filename="cls_layer.torch")
+        config_file_url = hf_hub_url(f"{username}/{repo_name}", filename="cls_layer.torch")
         value = cached_download(config_file_url)
         self.cls_layer = torch.load(value)
         
-        self.the_model = BertModel.from_pretrained(f"{hf_username}/{repo_name}").cuda()
-        self.the_tokenizer = BertTokenizer.from_pretrained(f"{hf_username}/{repo_name}", do_lower_case=False)
+        self.the_model = BertModel.from_pretrained(f"{username}/{repo_name}").cuda()
+        self.the_tokenizer = BertTokenizer.from_pretrained(f"{username}/{repo_name}", do_lower_case=False)
 
-        self.data_train = data_train
-        self.data_val = data_val
-        self.data_test = data_test
+        self.data_train = pd.read_excel(file_name_data_train, index_col=0)
+        self.data_val = pd.read_excel(file_name_data_val, index_col=0)
+        self.data_test = pd.read_excel(file_name_data_test, index_col=0)
 
 
     def _preproccesing(self, sen, b):
