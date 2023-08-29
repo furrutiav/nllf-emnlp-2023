@@ -14,7 +14,17 @@ python step0_hftest.py --model <your_model> --device <your_device>
 ### Step 1: Zero-shot Sub-task Labelisation
 
 ```
-python step0_hftest.py --model <your_model> --device <your_device>
+python 01_one_line.py \
+    --api_key <your_api_key_value> \
+    --file_name_dict_bsqs <your_file_name_dict_bsqs_value> \
+    --file_name_data_train <your_file_name_data_train_value> \
+    --sentence_col_name <your_sentence_col_name_value> \
+    --sample_size <your_sample_size_value> \
+    --seed <your_seed_value> \
+    --root_labels <your_root_labels_value> \
+    --temp <your_temperature_value> \
+    --max_t <your_max_tokens_value> \
+    --verbose <your_verbose_value>
 ```
 
 ### Step 2: Training of NLLF Generator

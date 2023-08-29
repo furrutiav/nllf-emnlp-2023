@@ -1,27 +1,41 @@
 import pandas as pd
 import openai
 import time
+import json
 
+    
 class SubTaskLabelisator:
-    def __init__(self, api_key, dict_bsqs, data_train, sentence_col_name, sample_size, chatgpt_template, seed=2023):
+    def __init__(self, api_key, file_name_dict_bsqs, file_name_data_train, sentence_col_name, sample_size, seed=2023):
         """
         chatgpt_template = lambda sen, bsq: f"Sentence: {sen}
         Based on the sentence, {bsq} (answer 'Yes' or 'No')"
         """
         openai.organization = ""
         openai.api_key = api_key
-
-        self.dict_bsqs = dict_bsqs
-        self.data_train = data_train
+        
+        self.dict_bsqs = {}
+        with open(file_name_dict_bsqs, 'r') as f:
+            self.dict_bsqs = json.load(f)
+    
+        self.data_train = pd.read_excel(file_name_data_train, index_col=0)
         self.sample_size = sample_size
-        self.chatgpt_template = chatgpt_template
+        
         self.sentence_col_name = sentence_col_name
+        
+        _cased_ = sentence_col_name[0].upper() + sentence_col_name[1:]
+        _uncased_ = sentence_col_name[0].lower() + sentence_col_name[1:]
+        
+        self.chatgpt_template = lambda sen, bsq: f"""{_cased_}: {sen}\nBased on the {_uncased_}, {bsq} (answer 'Yes' or 'No')"""
+        
         self.seed = seed
 
         self.sample_train = self.get_sample(sample_size, seed)
 
     def get_sample(self, sample_size, seed):
-        return self.data_train.sample(sample_size, random_state=seed)
+        if sample_size <= 1:
+            return self.data_train.sample(frac = sample_size, random_state=seed)
+        else:
+            return self.data_train.sample(sample_size, random_state=seed)
 
     def chatgpt(self, text, temp, max_t):
         try: 
