@@ -24,9 +24,9 @@ if __name__ == "__main__":
                                 undergo the NLLF representation process.
     root_labels:                Path to the folder where the NLLF representations generated through the binary question-based 
                                 labeling process using the pre-trained generator will be stored.
-    verbose:                    A boolean value that controls whether status and progress messages will be printed during the 
-                                script's execution. By default, it has a value of False.
-    """
+    verbose:                    A boolean value that controls whether status and progress messages will be printed during 
+                                script execution.
+"""
     argParser = argparse.ArgumentParser()
     
     # Instance

@@ -23,8 +23,8 @@ if __name__ == "__main__":
     epochs:                 Number of training epochs. An epoch represents a complete pass through the training dataset.
     lr:                     Learning rate for training. Controls how much the model's weights are adjusted based on the 
                             error.
-    verbose:                A boolean value that determines whether status and progress messages will be printed during 
-                            script execution, providing information about the weak labeling process.
+    verbose:                A boolean value that controls whether status and progress messages will be printed during 
+                            script execution.    
     hf_token:               Hugging Face User Access Token required to interact with their services, such as loading 
                             trained models.
     repo_name:              Name of the repository where the NLLF generator will be saved.
