@@ -1,16 +1,21 @@
-# Deep Natural Language Feature Learning for Interpretable Prediction - Repository
+## Deep Natural Language Feature Learning for Interpretable Prediction - Repository
 
 This is the official repo for **Deep Natural Language Feature Learning for Interpretable Prediction** @ EMNLP 2023.
 
-## One-line for non-expert
+> **Figure 1:** Full process of subtask labelisation, NLLFG training, NLLF generation and integration.
+<img src="https://docs.google.com/drawings/d/e/2PACX-1vQu6AiBe7sxr-00IgmU8Q9RsqkjJAyQLqYoGKINinlcNftcOSRvdp6rlgdHoXVuxLiuF92-FrD_SiU8/pub?w=2240&h=804" width="980">
+
+
+
+### One-line for non-expert
 
 ```
 python step0_hftest.py --model <your_model> --device <your_device>
 ```
 
-## Step-by-step
+### Step-by-step
 
-### Step 1: Zero-shot Sub-task Labelisation
+#### Step 1: Zero-shot Sub-task Labelisation
 
 ```
 python 01_one_line.py \
@@ -26,7 +31,7 @@ python 01_one_line.py \
     --verbose <your_verbose_value>
 ```
 
-### Step 2: Training of NLLF Generator
+#### Step 2: Training of NLLF Generator
 
 ```
 python 02_one_line.py \
@@ -45,7 +50,7 @@ python 02_one_line.py \
     --username <your_huggingface_username_value>
 ```
 
-### Step 3.1: NLLF Generation
+#### Step 3.1: NLLF Generation
 
 ```
 python 03_1_one_line.py \
@@ -62,7 +67,7 @@ python 03_1_one_line.py \
     --verbose <your_verbose_value>
 ```
 
-### Step 3.2: NLLF Integration
+#### Step 3.2: NLLF Integration
 
 ```
 python 03_2_one_line.py \
@@ -73,12 +78,12 @@ python 03_2_one_line.py \
 --root_labels_out <your_root_labels_out_value>
 ```
 
-## Experiments
+### Experiments
 
 
 
 
-## Citation
+### Citation
 
 If you find this repo useful, please cite our paper:
 ```
