@@ -73,7 +73,7 @@ This section provides detailed descriptions of the variables used in the NLLF pi
 Execute the following command to utilize the NLLF pipeline:
 
 ```
-python one_line.py \
+python method/one_line.py \
   --api_key <your_api_key_value> \
   --file_name_dict_bsqs <your_file_name_dict_bsqs_value> \
   --file_name_data_train <your_file_name_data_train_value> \
@@ -112,7 +112,7 @@ For more detailed explanations and insights into each parameter and step, please
 #### Step 1: Zero-shot Sub-task Labelisation
 
 ```
-python 01_one_line.py \
+python method/01_one_line.py \
   --api_key <your_api_key_value> \
   --file_name_dict_bsqs <your_file_name_dict_bsqs_value> \
   --file_name_data_train <your_file_name_data_train_value> \
@@ -128,7 +128,7 @@ python 01_one_line.py \
 #### Step 2: Training of NLLF Generator
 
 ```
-python 02_one_line.py \
+python method/02_one_line.py \
   --file_name_dict_bsqs <your_file_name_dict_bsqs_value> \
   --root_labels <your_root_labels_value> \
   --sentence_col_name <your_sentence_col_name_value> \
@@ -147,7 +147,7 @@ python 02_one_line.py \
 #### Step 3.1: NLLF Generation
 
 ```
-python 03_1_one_line.py \
+python method/03_1_one_line.py \
   --file_name_new_dict_bsqs <your_file_name_new_dict_bsqs_value> \
   --maxlen_s <your_max_token_length_s_value> \
   --maxlen_bsq <your_max_token_length_bsq_value> \
@@ -164,7 +164,7 @@ python 03_1_one_line.py \
 #### Step 3.2: NLLF Integration
 
 ```
-python 03_2_one_line.py \
+python method/03_2_one_line.py \
   --root_labels_in <your_root_labels_in_value> \
   --file_name_support <your_file_name_support_value> \
   --label_col_name <your_label_col_name_value> \
