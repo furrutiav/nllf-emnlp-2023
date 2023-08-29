@@ -105,7 +105,7 @@ python method/one_line.py \
 
 Feel free to tailor the parameters to your specific needs and unlock the capabilities of the NLLF pipeline. You can also follow a test example defined in the source code of the command: [here](method/one_line.py).
 
-For more detailed explanations and insights into each parameter and step, please refer to the main documentation (Step-by-step). You can also play on a Jupyter Notebook: [here](method/00_notebook_full.ipynb). Happy NLLF generating!
+For more detailed explanations and insights into each parameter and step, please refer to the main documentation (Step-by-step). You can also play on a Jupyter Notebook: [here](method/00_notebook_full.ipynb).
 
 ### Step-by-step
 
