@@ -1,6 +1,5 @@
 # Deep Natural Language Feature Learning for Interpretable Prediction - Repository
 
-
 This is the official repo for **Deep Natural Language Feature Learning for Interpretable Prediction** @ EMNLP 2023.
 
 ## One-line for non-expert
@@ -30,7 +29,20 @@ python 01_one_line.py \
 ### Step 2: Training of NLLF Generator
 
 ```
-python step0_hftest.py --model <your_model> --device <your_device>
+python 02_one_line.py \
+    --file_name_dict_bsqs <your_file_name_dict_bsqs_value> \
+    --root_labels <your_root_labels_value> \
+    --sentence_col_name <your_sentence_col_name_value> \
+    --model_name <your_model_name_value> \
+    --maxlen_s <your_max_token_length_s_value> \
+    --maxlen_bsq <your_max_token_length_bsq_value> \
+    --batch_size <your_batch_size_value> \
+    --epochs <your_epochs_value> \
+    --lr <your_learning_rate_value> \
+    --verbose <your_verbose_value>\
+    --hf_token <your_huggingface_token_value> \
+    --repo_name <your_repository_name_value> \
+    --username <your_huggingface_username_value>
 ```
 
 ### Step 3.1: NLLF Generation

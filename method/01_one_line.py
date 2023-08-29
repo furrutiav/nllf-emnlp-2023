@@ -37,7 +37,7 @@ if __name__ == "__main__":
     argParser.add_argument("-ak", "--api_key", help="OpenAI - API Key")
     argParser.add_argument("-b", "--file_name_dict_bsqs", help="File name of your JSON with BSQs")
     argParser.add_argument("-d", "--file_name_data_train", help="File name of your .xlsx Training Dataset")
-    argParser.add_argument("-c", "--sentence_col_name", help="Column name of yout text-to-classify")
+    argParser.add_argument("-c", "--sentence_col_name", help="Column name of your text-to-classify")
     argParser.add_argument("-s", "--sample_size", default = 0.1, help="Sample size for zero-shot labelisation: Integer number or fraction between 0 to 1")
     argParser.add_argument("-r", "--seed", default = 2023, help="Random seed")
     

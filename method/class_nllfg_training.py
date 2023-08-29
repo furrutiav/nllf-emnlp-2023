@@ -9,6 +9,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 from huggingface_hub import HfApi
+import json
 
 print("torch.cuda.is_available()")
 assert(torch.cuda.is_available() == True)
@@ -73,8 +74,10 @@ class DatasetTaskDecision(Dataset):
 
 class NLLFGeneratorTraining:
 
-    def __init__(self, dict_bsqs, root_labels, sentence_col_name, model_name, maxlen_s, maxlen_bsq, batch_size=32):
-        self.dict_bsqs = dict_bsqs
+    def __init__(self, file_name_dict_bsqs, root_labels, sentence_col_name, model_name, maxlen_s, maxlen_bsq, batch_size=32):
+        self.dict_bsqs = {}
+        with open(file_name_dict_bsqs, 'r') as f:
+            self.dict_bsqs = json.load(f)
         self.sentence_col_name = sentence_col_name
         self.model_name = model_name
         
@@ -218,13 +221,9 @@ class NLLFGeneratorTraining:
         api = HfApi()
         
         api.upload_file(
-
             path_or_fileobj="cls_layer.torch",
-
             path_in_repo="cls_layer.torch",
-
             repo_id=f"{username}/{repo_name}",
-
         )
         
         pass
