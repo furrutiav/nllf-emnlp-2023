@@ -109,8 +109,11 @@ For more detailed explanations and insights into each parameter and step, please
 
 ### Step-by-step
 
+This section shows the three steps of the NLLF pipeline.
+
 #### Step 1: Zero-shot Sub-task Labelisation
 
+Execute the following command to perform the Zero-shot Sub-task Labelisation (Step 1 of NLLF pipeline):
 ```
 python method/01_one_line.py \
   --api_key <your_api_key_value> \
@@ -124,9 +127,11 @@ python method/01_one_line.py \
   --max_t <your_max_tokens_value> \
   --verbose <your_verbose_value>
 ```
+See more detailed parameter descriptions in the [source code](method/01_one_line.py) or in the [notebook](method/01_notebook_labelisation.ipynb).
 
 #### Step 2: Training of NLLF Generator
 
+Execute the following command to perform the Training of NLLF Generator (Step 2 of NLLF pipeline):
 ```
 python method/02_one_line.py \
   --file_name_dict_bsqs <your_file_name_dict_bsqs_value> \
@@ -143,9 +148,10 @@ python method/02_one_line.py \
   --repo_name <your_repository_name_value> \
   --username <your_huggingface_username_value>
 ```
-
+See more detailed parameter descriptions in the [source code](method/02_one_line.py) or in the [notebook](method/02_notebook_labelisation.ipynb).
 #### Step 3.1: NLLF Generation
 
+Execute the following command to perform the NLLF Generation (Step 3.1 of NLLF pipeline):
 ```
 python method/03_1_one_line.py \
   --file_name_new_dict_bsqs <your_file_name_new_dict_bsqs_value> \
@@ -160,9 +166,10 @@ python method/03_1_one_line.py \
   --root_labels <your_root_labels_value> \
   --verbose <your_verbose_value>
 ```
-
+See more detailed parameter descriptions in the [source code](method/03_1_one_line.py) or in the [notebook](method/03_1_notebook_labelisation.ipynb).
 #### Step 3.2: NLLF Integration
 
+Execute the following command to perform the NLLF Integration (Step 3.2 of NLLF pipeline):
 ```
 python method/03_2_one_line.py \
   --root_labels_in <your_root_labels_in_value> \
@@ -171,11 +178,25 @@ python method/03_2_one_line.py \
   --dt_max_depth <your_decision_tree_max_depth_value> \
   --root_labels_out <your_root_labels_out_value>
 ```
-
+See more detailed parameter descriptions in the [source code](method/03_2_one_line.py) or in the [notebook](method/03_2_notebook_labelisation.ipynb).
 ### Experiments
 
+The labeling, generation and assembly of NLLF features is [here](nllf_labelisation/), [here](nllf_generator/) and [here](nllf_ensemble/), respectively.
 
+#### BERT
+* Code used for the experiments with BERT for the SAC and IAD task: 
+  * SAC: [here](bert_exp/SAC/),
+  * IAD: [here](bert_exp/IAD/).
 
+#### ChatGPT
+* Code used for the experiments with ChatGPT (vanilla and Chain-of-thought) for the SAC and IAD task: 
+  * SAC: [here](chatgpt_exp/SAC/),
+  * IAD: [here](chatgpt_exp/IAD/).
+
+#### Decision Trees
+* Code used for the experiments with Decision Trees for the SAC and IAD task: 
+  * SAC: [here](dt_exp/SAC/),
+  * IAD: [here](dt_exp/IAD/)
 
 ### Citation
 
