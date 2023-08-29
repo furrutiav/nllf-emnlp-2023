@@ -65,7 +65,12 @@ python 03_1_one_line.py \
 ### Step 3.2: NLLF Integration
 
 ```
-python step0_hftest.py --model <your_model> --device <your_device>
+python 03_2_one_line.py \
+--root_labels_in <your_root_labels_in_value> \
+--file_name_support <your_file_name_support_value> \
+--label_col_name <your_label_col_name_value> \
+--dt_max_depth <your_decision_tree_max_depth_value> \
+--root_labels_out <your_root_labels_out_value>
 ```
 
 ## Experiments

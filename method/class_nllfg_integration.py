@@ -1,19 +1,23 @@
 import pandas as pd
 from sklearn.metrics import classification_report
 from sklearn.tree import DecisionTreeClassifier
-
+import pickle
 
 class NLLFIntergration:
 
-    def __init__(self, root_labels, support, label_col_name):
-        self.support = support
+    def __init__(self, root_labels, file_name_support, label_col_name, dt_max_depth):
+        o = [""]
+        with open(file_name_support) as f:
+            o = f.readlines()
+        self.support = [x.replace("\n", "").strip() for x in o]
+        
         self.label_col_name = label_col_name
 
         self.raw_data = self.get_rawdata(root_labels)
 
         self.data = self.prepare_data(label_col_name)
 
-        self._train()
+        self._train(max_depth=dt_max_depth)
 
     def get_rawdata(self, root_labels):
         df = {}
@@ -48,4 +52,11 @@ class NLLFIntergration:
     def predict(self, where):
         X = self.data[where][0]
         return self.clf.predict(X)
-
+    
+    def save_predict(self, root_labels):
+        for where in self.data.keys():
+            X = self.data[where][0].copy()
+            y_pred = self.clf.predict(X)
+            X["pred"] = y_pred
+            X.to_excel(f"{root_labels}/nllf_pred_{where}.xlsx")
+        pickle.dump(self.clf, open(f"{root_labels}/dt_nllf.pkl", "wb"))
