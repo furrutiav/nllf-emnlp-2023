@@ -148,7 +148,7 @@ python method/02_one_line.py \
   --repo_name <your_repository_name_value> \
   --username <your_huggingface_username_value>
 ```
-See more detailed parameter descriptions in the [source code](method/02_one_line.py) or in the [notebook](method/02_notebook_labelisation.ipynb).
+See more detailed parameter descriptions in the [source code](method/02_one_line.py) or in the [notebook](method/02_notebook_nllg_training.ipynb).
 #### Step 3.1: NLLF Generation
 
 Execute the following command to perform the NLLF Generation (Step 3.1 of NLLF pipeline):
@@ -166,7 +166,7 @@ python method/03_1_one_line.py \
   --root_labels <your_root_labels_value> \
   --verbose <your_verbose_value>
 ```
-See more detailed parameter descriptions in the [source code](method/03_1_one_line.py) or in the [notebook](method/03_1_notebook_labelisation.ipynb).
+See more detailed parameter descriptions in the [source code](method/03_1_one_line.py) or in the [notebook](method/03_1_notebook_nllf_generation.ipynb).
 #### Step 3.2: NLLF Integration
 
 Execute the following command to perform the NLLF Integration (Step 3.2 of NLLF pipeline):
@@ -178,7 +178,7 @@ python method/03_2_one_line.py \
   --dt_max_depth <your_decision_tree_max_depth_value> \
   --root_labels_out <your_root_labels_out_value>
 ```
-See more detailed parameter descriptions in the [source code](method/03_2_one_line.py) or in the [notebook](method/03_2_notebook_labelisation.ipynb).
+See more detailed parameter descriptions in the [source code](method/03_2_one_line.py) or in the [notebook](method/03_2_notebook_nllfg_integration.ipynb).
 ### Experiments
 
 The labeling, generation and assembly of NLLF features is [here](nllf_labelisation/), [here](nllf_generator/) and [here](nllf_ensemble/), respectively.
